@@ -52,6 +52,8 @@ mvn clean install
 mvn spring-boot:run
 ```
 
+Après le démarrage, ouvrir `http://localhost:8080/` pour la page d'accueil et `http://localhost:8080/api/health` pour vérifier la connexion à la base.
+
 Les tests démarrent le contexte Spring avec H2 en mémoire et vérifient la création des tables JPA, y compris la table de jointure `vehicule_equipement`. Le profil normal reste configuré pour MySQL.
 
 ## Choix documentés

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AutoLoc — Accueil</title>
+    <style>
+        :root { color-scheme: light; font-family: "Segoe UI", Arial, sans-serif; color: #172b4d; background: #f3f6fa; }
+        body { margin: 0; min-height: 100vh; display: grid; place-items: center; }
+        main { box-sizing: border-box; width: min(720px, calc(100% - 32px)); padding: 44px; background: white; border-radius: 18px; box-shadow: 0 12px 40px #193e6318; }
+        .eyebrow { color: #2472b8; font-size: .82rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+        h1 { margin: 10px 0; font-size: clamp(2.4rem, 8vw, 4rem); color: #193e63; }
+        p { color: #53657d; line-height: 1.65; }
+        .status { display: flex; align-items: center; gap: 12px; margin: 28px 0; padding: 16px; border-radius: 12px; background: #edf8f1; color: #17663a; font-weight: 600; }
+        .dot { width: 11px; height: 11px; border-radius: 50%; background: #23a455; }
+        nav { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+        a { padding: 11px 15px; border-radius: 9px; background: #193e63; color: white; text-decoration: none; }
+        a.secondary { background: #eaf0f7; color: #193e63; }
+        small { display: block; margin-top: 26px; color: #738198; }
+    </style>
+</head>
+<body>
+<main>
+    <div class="eyebrow">Plateforme de location multi-agences</div>
+    <h1>AutoLoc</h1>
+    <p>Le serveur AutoLoc est démarré. Cette version met en place le modèle métier JPA et vérifie la connexion à la base MySQL.</p>
+    <div class="status" id="status"><span class="dot"></span><span>Vérification de la base de données…</span></div>
+    <nav>
+        <a href="/api/health">État de l’application (JSON)</a>
+        <a class="secondary" href="https://github.com/amine-garraoui/autoloc">Code source</a>
+    </nav>
+    <small>AutoLoc · Spring Boot · Java 17</small>
+</main>
+<script>
+    fetch('/api/health')
+        .then(response => {
+            if (!response.ok) throw new Error('Service indisponible');
+            return response.json();
+        })
+        .then(data => {
+            document.querySelector('#status span:last-child').textContent =
+                data.status === 'UP' && data.database === 'CONNECTED'
+                    ? 'Application active · base de données connectée'
+                    : 'Application active · état de la base à vérifier';
+        })
+        .catch(() => {
+            document.querySelector('#status').style.background = '#fff2ed';
+            document.querySelector('#status').style.color = '#a33a20';
+            document.querySelector('#status span:last-child').textContent =
+                'La connexion à la base de données est indisponible';
+        });
+</script>
+</body>
+</html>
