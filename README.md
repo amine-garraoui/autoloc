@@ -63,4 +63,4 @@ Les tests démarrent le contexte Spring avec H2 en mémoire et vérifient la cr�
 
 ## GitHub
 
-Repository attendu : `autoloc` (public). URL à compléter après création/vérification du dépôt : `[URL du repository]`.
+Repository : [`amine-garraoui/autoloc`](https://github.com/amine-garraoui/autoloc) (public, branche `main`).
