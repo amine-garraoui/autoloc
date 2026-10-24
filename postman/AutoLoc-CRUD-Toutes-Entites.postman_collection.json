@@ -1,0 +1,1636 @@
+{
+  "item": [
+    {
+      "name": "Agences",
+      "item": [
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Création : HTTP 201', function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { const id = pm.response.json().id; pm.collectionVariables.set('agenceId', id); pm.test('La réponse contient un identifiant', function () { pm.expect(id).to.be.a('number'); }); }"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"adresse\": \"Centre Ville\",\r\n  \"ville\": \"Tunis\",\r\n  \"telephone\": \"71222333\",\r\n  \"nom\": \"Agence Tunis\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/agences",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "agences"
+              ]
+            },
+            "method": "POST"
+          },
+          "name": "Créer Agences"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Liste : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse est un tableau JSON', function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/agences",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "agences"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Lister Agences"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Détail : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Le détail correspond à l’identifiant créé', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('agenceId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/agences/{{agenceId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "agences",
+                "{{agenceId}}"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Consulter par identifiant Agences"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Modification : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse modifiée conserve l’identifiant', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('agenceId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"adresse\": \"Centre Ville\",\r\n  \"ville\": \"Tunis\",\r\n  \"telephone\": \"71222333\",\r\n  \"nom\": \"Agence Tunis modifiee\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/agences/{{agenceId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "agences",
+                "{{agenceId}}"
+              ]
+            },
+            "method": "PUT"
+          },
+          "name": "Modifier Agences"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Suppression : HTTP 204', function () { pm.response.to.have.status(204); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/agences/{{agenceId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "agences",
+                "{{agenceId}}"
+              ]
+            },
+            "method": "DELETE"
+          },
+          "name": "Supprimer Agences"
+        }
+      ]
+    },
+    {
+      "name": "Clients",
+      "item": [
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Création : HTTP 201', function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { const id = pm.response.json().id; pm.collectionVariables.set('clientId', id); pm.test('La réponse contient un identifiant', function () { pm.expect(id).to.be.a('number'); }); }"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"dateInscription\": \"2026-10-14\",\r\n  \"numPermis\": \"P123456\",\r\n  \"email\": \"amine@example.com\",\r\n  \"nom\": \"Ben Ali\",\r\n  \"prenom\": \"Amine\",\r\n  \"telephone\": \"20123456\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients"
+              ]
+            },
+            "method": "POST"
+          },
+          "name": "Créer Clients"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Liste : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse est un tableau JSON', function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Lister Clients"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Détail : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Le détail correspond à l’identifiant créé', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('clientId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients/{{clientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients",
+                "{{clientId}}"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Consulter par identifiant Clients"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Modification : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse modifiée conserve l’identifiant', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('clientId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"dateInscription\": \"2026-10-14\",\r\n  \"numPermis\": \"P123456\",\r\n  \"email\": \"amine.modifie@example.com\",\r\n  \"nom\": \"Ben Ali\",\r\n  \"prenom\": \"Amine\",\r\n  \"telephone\": \"20123456\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients/{{clientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients",
+                "{{clientId}}"
+              ]
+            },
+            "method": "PUT"
+          },
+          "name": "Modifier Clients"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Suppression : HTTP 204', function () { pm.response.to.have.status(204); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/clients/{{clientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clients",
+                "{{clientId}}"
+              ]
+            },
+            "method": "DELETE"
+          },
+          "name": "Supprimer Clients"
+        }
+      ]
+    },
+    {
+      "name": "Contrats",
+      "item": [
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Création : HTTP 201', function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { const id = pm.response.json().id; pm.collectionVariables.set('contractId', id); pm.test('La réponse contient un identifiant', function () { pm.expect(id).to.be.a('number'); }); }"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"valide\": true,\r\n  \"dateSignature\": \"2026-10-14\",\r\n  \"montantTotal\": 450.0,\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/contrats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contrats"
+              ]
+            },
+            "method": "POST"
+          },
+          "name": "Créer Contrats"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Liste : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse est un tableau JSON', function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/contrats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contrats"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Lister Contrats"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Détail : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Le détail correspond à l’identifiant créé', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('contractId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/contrats/{{contractId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contrats",
+                "{{contractId}}"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Consulter par identifiant Contrats"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Modification : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse modifiée conserve l’identifiant', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('contractId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"valide\": true,\r\n  \"dateSignature\": \"2026-10-14\",\r\n  \"montantTotal\": 500.0,\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/contrats/{{contractId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contrats",
+                "{{contractId}}"
+              ]
+            },
+            "method": "PUT"
+          },
+          "name": "Modifier Contrats"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Suppression : HTTP 204', function () { pm.response.to.have.status(204); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/contrats/{{contractId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "contrats",
+                "{{contractId}}"
+              ]
+            },
+            "method": "DELETE"
+          },
+          "name": "Supprimer Contrats"
+        }
+      ]
+    },
+    {
+      "name": "Employers",
+      "item": [
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Création : HTTP 201', function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { const id = pm.response.json().id; pm.collectionVariables.set('employerId', id); pm.test('La réponse contient un identifiant', function () { pm.expect(id).to.be.a('number'); }); }"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"prenom\": \"Sami\",\r\n  \"role\": \"AGENT\",\r\n  \"nom\": \"Haddad\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/employers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "employers"
+              ]
+            },
+            "method": "POST"
+          },
+          "name": "Créer Employers"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Liste : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse est un tableau JSON', function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/employers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "employers"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Lister Employers"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Détail : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Le détail correspond à l’identifiant créé', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('employerId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/employers/{{employerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "employers",
+                "{{employerId}}"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Consulter par identifiant Employers"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Modification : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse modifiée conserve l’identifiant', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('employerId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"prenom\": \"Sami\",\r\n  \"role\": \"MANAGER\",\r\n  \"nom\": \"Haddad\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/employers/{{employerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "employers",
+                "{{employerId}}"
+              ]
+            },
+            "method": "PUT"
+          },
+          "name": "Modifier Employers"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Suppression : HTTP 204', function () { pm.response.to.have.status(204); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/employers/{{employerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "employers",
+                "{{employerId}}"
+              ]
+            },
+            "method": "DELETE"
+          },
+          "name": "Supprimer Employers"
+        }
+      ]
+    },
+    {
+      "name": "Equipements",
+      "item": [
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Création : HTTP 201', function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { const id = pm.response.json().id; pm.collectionVariables.set('equipementId', id); pm.test('La réponse contient un identifiant', function () { pm.expect(id).to.be.a('number'); }); }"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"libelle\": \"GPS\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/equipements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipements"
+              ]
+            },
+            "method": "POST"
+          },
+          "name": "Créer Equipements"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Liste : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse est un tableau JSON', function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/equipements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipements"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Lister Equipements"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Détail : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Le détail correspond à l’identifiant créé', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('equipementId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/equipements/{{equipementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipements",
+                "{{equipementId}}"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Consulter par identifiant Equipements"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Modification : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse modifiée conserve l’identifiant', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('equipementId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"libelle\": \"GPS premium\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/equipements/{{equipementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipements",
+                "{{equipementId}}"
+              ]
+            },
+            "method": "PUT"
+          },
+          "name": "Modifier Equipements"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Suppression : HTTP 204', function () { pm.response.to.have.status(204); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/equipements/{{equipementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipements",
+                "{{equipementId}}"
+              ]
+            },
+            "method": "DELETE"
+          },
+          "name": "Supprimer Equipements"
+        }
+      ]
+    },
+    {
+      "name": "Maintenances",
+      "item": [
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Création : HTTP 201', function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { const id = pm.response.json().id; pm.collectionVariables.set('maintenanceId', id); pm.test('La réponse contient un identifiant', function () { pm.expect(id).to.be.a('number'); }); }"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"description\": \"Revision periodique\",\r\n  \"dateDebut\": \"2026-10-14\",\r\n  \"dateFin\": \"2026-10-15\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenances",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "maintenances"
+              ]
+            },
+            "method": "POST"
+          },
+          "name": "Créer Maintenances"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Liste : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse est un tableau JSON', function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenances",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "maintenances"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Lister Maintenances"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Détail : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Le détail correspond à l’identifiant créé', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('maintenanceId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenances/{{maintenanceId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "maintenances",
+                "{{maintenanceId}}"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Consulter par identifiant Maintenances"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Modification : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse modifiée conserve l’identifiant', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('maintenanceId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"description\": \"Revision completee\",\r\n  \"dateDebut\": \"2026-10-14\",\r\n  \"dateFin\": \"2026-10-16\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenances/{{maintenanceId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "maintenances",
+                "{{maintenanceId}}"
+              ]
+            },
+            "method": "PUT"
+          },
+          "name": "Modifier Maintenances"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Suppression : HTTP 204', function () { pm.response.to.have.status(204); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenances/{{maintenanceId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "maintenances",
+                "{{maintenanceId}}"
+              ]
+            },
+            "method": "DELETE"
+          },
+          "name": "Supprimer Maintenances"
+        }
+      ]
+    },
+    {
+      "name": "Paiements",
+      "item": [
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Création : HTTP 201', function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { const id = pm.response.json().id; pm.collectionVariables.set('paiementId', id); pm.test('La réponse contient un identifiant', function () { pm.expect(id).to.be.a('number'); }); }"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"datePaiement\": \"2026-10-14\",\r\n  \"montant\": 450.0,\r\n  \"modePaiement\": \"CARTE\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/paiements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "paiements"
+              ]
+            },
+            "method": "POST"
+          },
+          "name": "Créer Paiements"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Liste : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse est un tableau JSON', function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/paiements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "paiements"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Lister Paiements"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Détail : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Le détail correspond à l’identifiant créé', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('paiementId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/paiements/{{paiementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "paiements",
+                "{{paiementId}}"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Consulter par identifiant Paiements"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Modification : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse modifiée conserve l’identifiant', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('paiementId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"datePaiement\": \"2026-10-14\",\r\n  \"montant\": 500.0,\r\n  \"modePaiement\": \"VIREMENT\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/paiements/{{paiementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "paiements",
+                "{{paiementId}}"
+              ]
+            },
+            "method": "PUT"
+          },
+          "name": "Modifier Paiements"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Suppression : HTTP 204', function () { pm.response.to.have.status(204); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/paiements/{{paiementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "paiements",
+                "{{paiementId}}"
+              ]
+            },
+            "method": "DELETE"
+          },
+          "name": "Supprimer Paiements"
+        }
+      ]
+    },
+    {
+      "name": "Reservations",
+      "item": [
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Création : HTTP 201', function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { const id = pm.response.json().id; pm.collectionVariables.set('reservationId', id); pm.test('La réponse contient un identifiant', function () { pm.expect(id).to.be.a('number'); }); }"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"statut\": \"EN_ATTENTE\",\r\n  \"dateDebut\": \"2026-10-20\",\r\n  \"dateFin\": \"2026-10-22\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reservations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reservations"
+              ]
+            },
+            "method": "POST"
+          },
+          "name": "Créer Reservations"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Liste : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse est un tableau JSON', function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reservations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reservations"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Lister Reservations"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Détail : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Le détail correspond à l’identifiant créé', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('reservationId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reservations/{{reservationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reservations",
+                "{{reservationId}}"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Consulter par identifiant Reservations"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Modification : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse modifiée conserve l’identifiant', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('reservationId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"statut\": \"CONFIRMEE\",\r\n  \"dateDebut\": \"2026-10-20\",\r\n  \"dateFin\": \"2026-10-23\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reservations/{{reservationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reservations",
+                "{{reservationId}}"
+              ]
+            },
+            "method": "PUT"
+          },
+          "name": "Modifier Reservations"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Suppression : HTTP 204', function () { pm.response.to.have.status(204); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reservations/{{reservationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reservations",
+                "{{reservationId}}"
+              ]
+            },
+            "method": "DELETE"
+          },
+          "name": "Supprimer Reservations"
+        }
+      ]
+    },
+    {
+      "name": "Vehicules",
+      "item": [
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Création : HTTP 201', function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { const id = pm.response.json().id; pm.collectionVariables.set('vehiculeId', id); pm.test('La réponse contient un identifiant', function () { pm.expect(id).to.be.a('number'); }); }"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"modele\": \"Yaris\",\r\n  \"immatriculation\": \"123TU4567\",\r\n  \"tarifJournalier\": 120.0,\r\n  \"statut\": \"DISPONIBLE\",\r\n  \"categorie\": \"CITADINE\",\r\n  \"marque\": \"Toyota\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/vehicules",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vehicules"
+              ]
+            },
+            "method": "POST"
+          },
+          "name": "Créer Vehicules"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Liste : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse est un tableau JSON', function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/vehicules",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vehicules"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Lister Vehicules"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Détail : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Le détail correspond à l’identifiant créé', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('vehiculeId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/vehicules/{{vehiculeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vehicules",
+                "{{vehiculeId}}"
+              ]
+            },
+            "method": "GET"
+          },
+          "name": "Consulter par identifiant Vehicules"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Modification : HTTP 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La réponse modifiée conserve l’identifiant', function () { pm.expect(String(pm.response.json().id)).to.eql(String(pm.collectionVariables.get('vehiculeId'))); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\r\n  \"modele\": \"Yaris\",\r\n  \"immatriculation\": \"123TU4567\",\r\n  \"tarifJournalier\": 130.0,\r\n  \"statut\": \"DISPONIBLE\",\r\n  \"categorie\": \"CITADINE\",\r\n  \"marque\": \"Toyota\",\r\n  \"id\": 0\r\n}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/vehicules/{{vehiculeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vehicules",
+                "{{vehiculeId}}"
+              ]
+            },
+            "method": "PUT"
+          },
+          "name": "Modifier Vehicules"
+        },
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Suppression : HTTP 204', function () { pm.response.to.have.status(204); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "request": {
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/vehicules/{{vehiculeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vehicules",
+                "{{vehiculeId}}"
+              ]
+            },
+            "method": "DELETE"
+          },
+          "name": "Supprimer Vehicules"
+        }
+      ]
+    }
+  ],
+  "info": {
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Suite sequentielle POST, GET liste, GET detail, PUT et DELETE pour les neuf entites. Chaque requete verifie le statut HTTP et le contenu essentiel.",
+    "_postman_id": "91e903cb-f822-4ef5-8d36-4fded218b752",
+    "name": "AutoLoc - CRUD toutes les entites"
+  },
+  "variable": [
+    {
+      "value": "http://localhost:8080",
+      "key": "baseUrl"
+    }
+  ]
+}
